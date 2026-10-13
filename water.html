@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>每日喝水量計算機｜一天要喝多少水？依體重、運動、天氣算給你</title>
+<meta name="description" content="免費線上喝水量計算機：輸入體重、運動時間、天氣與特殊狀況，立即算出每天建議喝多少水（毫升與杯數），並附上一天的喝水時間表。依每公斤 30 到 35 毫升的通用建議。">
+<meta property="og:title" content="每日喝水量計算機｜一天要喝多少水？">
+<meta property="og:description" content="輸入體重與活動量，算出每天該喝的水量與喝水時間表。">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://s16118143.github.io/water.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"一天要喝多少水？","acceptedAnswer":{"@type":"Answer","text":"一般成人以每公斤體重 30 到 35 毫升估算，60 公斤的人每天約 1,800 到 2,100 毫升，運動、天氣熱、懷孕或哺乳時要再增加。"}},
+{"@type":"Question","name":"喝水量包含飲料和湯嗎？","acceptedAnswer":{"@type":"Answer","text":"包含。茶、咖啡、湯、牛奶都算水分來源，但含糖飲料和酒精不建議當作主要水分，白開水仍是最好的選擇。"}},
+{"@type":"Question","name":"水喝太多會怎樣？","acceptedAnswer":{"@type":"Answer","text":"短時間大量喝水可能造成低血鈉，一般人一小時不要超過約 1,000 毫升。有腎臟病、心臟衰竭或醫師限制水分者，請依醫囑。"}},
+{"@type":"Question","name":"怎麼知道自己水喝夠了？","acceptedAnswer":{"@type":"Answer","text":"最簡單的指標是尿液顏色，淡黃色代表足夠，深黃色代表不足。口渴時其實身體已經輕微缺水。"}}
+]}
+</script>
+<style>
+:root{--bg:#f7f8fa;--card:#ffffff;--ink:#1c1f24;--muted:#5f6670;--line:#e3e6ea;--accent:#2a6fb0;--accent-ink:#ffffff;--soft:#e8f0f9;--warn:#b25b00;--warn-soft:#fff3e6}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--card:#1b1e23;--ink:#eef0f3;--muted:#a0a7b1;--line:#2b3038;--accent:#6fa9e6;--accent-ink:#0d1a27;--soft:#1e2a38;--warn:#f0a35a;--warn-soft:#332616}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.65}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 64px}
+nav{font-size:.85rem;margin-bottom:14px}
+nav a{color:var(--muted);text-decoration:none}
+a{color:var(--accent)}
+header{margin-bottom:20px}
+h1{font-size:1.6rem;line-height:1.3;margin:0 0 8px}
+.lead{color:var(--muted);margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;font-size:1.05rem;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.chk{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:.95rem;cursor:pointer}
+.chk input{width:18px;height:18px;margin:0}
+.btn{width:100%;margin-top:16px;padding:14px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-size:1.1rem;font-weight:700;cursor:pointer}
+.hint{font-size:.85rem;color:var(--muted);margin-top:10px}
+#result{display:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media (max-width:520px){.big{grid-template-columns:1fr}}
+.stat{background:var(--soft);border-radius:12px;padding:14px 16px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.7rem;font-weight:700;line-height:1.2}
+.stat .u{font-size:.9rem;font-weight:400;color:var(--muted);margin-left:4px}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:500;font-size:.85rem}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 12px;font-size:.9rem;margin-top:12px}
+h2{font-size:1.2rem;margin:0 0 10px}
+h3{font-size:1.02rem;margin:18px 0 6px}
+p{margin:0 0 10px}
+.faq p{color:var(--muted)}
+.ad{min-height:90px;border:1px dashed var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem;margin:20px 0}
+footer{font-size:.8rem;color:var(--muted);margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="./">← 健康小工具首頁</a></nav>
+<header>
+<h1>每日喝水量計算機</h1>
+<p class="lead">輸入體重和生活狀況，算出你一天該喝多少水，換算成杯數，並排好一天的喝水時間表。</p>
+</header>
+
+<section class="card">
+<div class="grid">
+<div>
+<label for="w">體重（公斤）</label>
+<input id="w" type="number" inputmode="decimal" min="20" max="300" step="0.1" placeholder="例：60">
+</div>
+<div>
+<label for="age">年齡（歲）</label>
+<input id="age" type="number" inputmode="numeric" min="10" max="100" placeholder="例：30">
+</div>
+<div>
+<label for="ex">每天運動時間</label>
+<select id="ex">
+<option value="0" selected>不運動或少於 15 分鐘</option>
+<option value="30">約 30 分鐘</option>
+<option value="60">約 1 小時</option>
+<option value="90">約 1.5 小時</option>
+<option value="120">2 小時以上</option>
+</select>
+</div>
+<div>
+<label for="env">環境</label>
+<select id="env">
+<option value="0" selected>一般室內、冷氣房</option>
+<option value="1">悶熱、常流汗或戶外工作</option>
+</select>
+</div>
+</div>
+<div class="grid" style="margin-top:14px">
+<label class="chk"><input type="checkbox" id="preg"> 懷孕中</label>
+<label class="chk"><input type="checkbox" id="bf"> 哺乳中</label>
+</div>
+<button class="btn" id="go" type="button">計算喝水量</button>
+<p class="hint">以每公斤體重 30 到 35 毫升為基準，再依運動、環境與特殊狀況調整。結果僅供一般健康成人參考。</p>
+</section>
+
+<section class="card" id="result">
+<h2>你的建議喝水量</h2>
+<div class="big">
+<div class="stat"><div class="k">每天建議</div><div class="v"><span id="ml">–</span><span class="u">毫升</span></div><div class="k" id="range">–</div></div>
+<div class="stat"><div class="k">換算</div><div class="v"><span id="cups">–</span><span class="u">杯</span></div><div class="k">以一杯 250 毫升計，約 <span id="bottles">–</span> 瓶 600 毫升寶特瓶</div></div>
+</div>
+<table>
+<thead><tr><th>時段</th><th>建議</th><th>水量</th></tr></thead>
+<tbody id="sched"></tbody>
+</table>
+<div class="warnbox" id="warn" style="display:none"></div>
+<p class="hint">茶、咖啡、湯都算在內，但盡量以白開水為主。尿液維持淡黃色就代表喝夠了。</p>
+</section>
+
+<div class="ad">廣告版位（流量達標後放 AdSense）</div>
+
+<section class="card faq">
+<h2>關於喝水量的常見問題</h2>
+<h3>一天到底要喝多少水？</h3>
+<p>最常用的估算是每公斤體重 30 到 35 毫升。60 公斤的人大約 1,800 到 2,100 毫升，80 公斤的人大約 2,400 到 2,800 毫升。這個數字是「總水分」，包含飲料和食物中的水，一般三餐大約提供 20% 左右，所以真正要「喝」的量會比算出來的略少一點。</p>
+<h3>運動和天氣熱要多喝多少？</h3>
+<p>每運動 30 分鐘大約多補充 250 到 350 毫升，激烈運動或大量流汗要更多。悶熱環境或戶外工作一天可以多 500 毫升左右。重點是分次補充，不要等到運動完一次灌。</p>
+<h3>咖啡和茶會脫水嗎？</h3>
+<p>適量的咖啡和茶不會讓你淨脫水，它們仍然算水分來源。但含糖飲料熱量高，酒精會增加排尿，這兩種不建議拿來當水喝。</p>
+<h3>喝太多水有風險嗎？</h3>
+<p>有。短時間內大量喝水可能稀釋血液中的鈉，造成低血鈉，嚴重時會頭痛、噁心、意識不清。一般人一小時不要超過約 1,000 毫升。有腎臟病、心臟衰竭、或醫師要求限制水分的人，請以醫囑為準，不要用這個計算機的數字。</p>
+<h3>怎麼養成喝水習慣？</h3>
+<p>把一天的量拆成固定時段，起床先喝一杯、每餐前一杯、下午和傍晚各補一兩杯，睡前一小時少喝。桌上放一個看得到刻度的水瓶，比靠意志力有效得多。</p>
+</section>
+
+<section class="card"><h2>其他工具</h2><p><a href="tdee.html">每日熱量需求（TDEE）＋ BMI 計算機</a> · <a href="./">全部工具</a></p></section>
+
+<footer>
+<p>本工具提供的數值依通用公式估算，僅供一般健康成人參考，不構成醫療建議。有腎臟、心臟疾病或其他特殊狀況，請諮詢醫師。</p>
+</footer>
+</div>
+
+<script>
+(function(){
+function r(n){return Math.round(n)}
+function fmt(n){return r(n).toLocaleString('zh-Hant-TW')}
+document.getElementById('go').addEventListener('click',function(){
+  var w=+document.getElementById('w').value, age=+document.getElementById('age').value;
+  var ex=+document.getElementById('ex').value, env=+document.getElementById('env').value;
+  var preg=document.getElementById('preg').checked, bf=document.getElementById('bf').checked;
+  if(!w){alert('請填體重');return;}
+  var perKg = (age && age>=65) ? 30 : 33;
+  var base = w*perKg;
+  var lo = w*30, hi = w*35;
+  var extra = 0, notes=[];
+  if(ex>0){ var e = ex/30*300; extra+=e; notes.push('運動 +'+fmt(e)); }
+  if(env===1){ extra+=500; notes.push('悶熱環境 +500'); }
+  if(preg){ extra+=300; notes.push('懷孕 +300'); }
+  if(bf){ extra+=700; notes.push('哺乳 +700'); }
+  var total = base+extra;
+  var capped=false;
+  if(total>4000){ total=4000; capped=true; }
+  document.getElementById('ml').textContent=fmt(total);
+  document.getElementById('range').textContent='基礎 '+fmt(lo)+' 到 '+fmt(hi)+' 毫升'+(notes.length?'，'+notes.join('、'):'');
+  document.getElementById('cups').textContent=(total/250).toFixed(1);
+  document.getElementById('bottles').textContent=(total/600).toFixed(1);
+  var slots=[['起床後','空腹先喝一杯，喚醒代謝',0.12],['早餐到午餐之間','分兩三次慢慢喝',0.20],['午餐前後','餐前一杯，餐後半小時再補',0.18],['下午','最容易忘記的時段，設個提醒',0.22],['晚餐前後','餐前一杯',0.16],['睡前 1 到 2 小時','少量，避免夜間起床',0.12]];
+  var tb=document.getElementById('sched'); tb.innerHTML='';
+  slots.forEach(function(s){ var tr=document.createElement('tr'); tr.innerHTML='<td>'+s[0]+'</td><td style="color:var(--muted)">'+s[1]+'</td><td class="n">'+fmt(total*s[2])+' 毫升</td>'; tb.appendChild(tr); });
+  var warn=document.getElementById('warn'); var wtxt='';
+  if(capped) wtxt='算出來的量超過 4,000 毫升，已調整為上限。大量流汗或長時間運動請搭配電解質，並分次補充。';
+  if(age && age>=65) wtxt+=(wtxt?' ':'')+'65 歲以上口渴感較不敏感，建議定時喝而不是等口渴。';
+  warn.textContent=wtxt; warn.style.display=wtxt?'block':'none';
+  var res=document.getElementById('result'); res.style.display='block'; res.scrollIntoView({behavior:'smooth',block:'start'});
+});
+})();
+</script>
+</body>
+</html>
